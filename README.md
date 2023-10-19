@@ -1,2 +1,3 @@
-# othello-project
+# Othello game
+
 othello project
