@@ -107,12 +107,14 @@ class Board:
     ):
         next_position = position_initial + direction
         while next_position != position_final:
-            board[next_position] = color
+            self[next_position] = color
             next_position += direction
 
     def apply_list_of_changes(self, list_of_changes):
         for change in list_of_changes:
-            apply_changes(change)
+            color, position_initial, direction, position_final = change
+            self.apply_changes(color, position_initial, direction, position_final)
+        self[position_initial] = color
 
     def draw(self):
         print("    A  ", " B  ", " C  ", " D  ", " E  ", " F  ", " G  ", " H  ", sep="")
@@ -134,5 +136,4 @@ class Board:
 
 if __name__ == "__main__":
     board = Board()
-    # board.check_neighbors(pawn.Pawn.BLACK, pawn.Position(3, 2))
-    board.draw()
+    board.check_neighbors(pawn.Pawn.BLACK, pawn.Position(3, 2))
