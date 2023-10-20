@@ -62,7 +62,9 @@ class Board:
             if for_change:
                 will_make_oppponent_pawn_flip = True
                 filtered_direction, final_position = for_change
-                self.apply_changes(color, position, filtered_direction, final_position)
+                self.apply_changes(
+                    color, position, filtered_direction, final_position
+                )  # maybe just note the changes to be applied in lists
         return will_make_oppponent_pawn_flip
 
     def check_imply_changing_colors(
