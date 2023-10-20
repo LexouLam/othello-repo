@@ -46,12 +46,10 @@ class Board:
             (-1, 0),
         }:
             attempted_position = position + index
-            print(index, self[attempted_position] == opponent_color)
             if (
                 attempted_position.valid_position()
                 and self[attempted_position] == opponent_color
             ):
-                print("HEllo")
                 good_neighbors.append(attempted_position)
 
         return color, good_neighbors
@@ -62,6 +60,4 @@ class Board:
 
 if __name__ == "__main__":
     board = Board()
-    # board.draw()
-    # print(board.array[0][0])
-    print(board.check_neighbors(pawn.Pawn.BLACK, pawn.Position(3, 2)))
+    board.check_neighbors(pawn.Pawn.BLACK, pawn.Position(3, 2))
