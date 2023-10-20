@@ -6,6 +6,14 @@ class Pawn(Enum):
     WHITE = 1
     BLACK = 2
 
+    def opponent_color(self):
+        if self == Pawn.WHITE:
+            return Pawn.BLACK
+        elif self == Pawn.BLACK:
+            return Pawn.WHITE
+        else:
+            raise ValueError("None color has no opponent")
+
 
 class Position:
     def __init__(self, row, col) -> None:
@@ -17,6 +25,9 @@ class Position:
 
     def __str__(self):
         return f"({self.row}, {self.col})"
+
+    def __eq__(self, other) -> bool:
+        return (self.row == other.row) and (self.col == other.col)
 
     def valid_position(self):
         """
