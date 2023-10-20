@@ -15,12 +15,29 @@ class Game:
         self.tour_counter = 0
 
     def start(self):
-        # while (
-        #     self.player1.can_play or self.player2.can_play
-        # ) and self.tour_counter < 60:
-        #     while True:
-        #         row, col = input("Give me your coordinates :").split()
-        #         pass
+        player = self.player1
+        while self.game_can_continue():
+            if not player.player_can_play(self.board):
+                player = self.change_player(player)
+            input_is_wrong = True
+            while input_is_wrong:
+                self.board.draw()
+                row, col = map(
+                    int, input(f"Enter row and col ({player.color}):  ").split()
+                )
+                position = pawn.Position(row, col)
+                if not position.valid_position():
+                    print("wrong input, try again")
+                    continue
+                list_of_changes = self.board.check_can_play(player.color, position)
+                if list_of_changes:
+                    self.board.apply_list_of_changes(list_of_changes)
+                    self.board.draw()
+                    input_is_wrong = False
+                    player = self.change_player(player)
+                else:
+                    print("wrong input, try again")
+
         pass
 
     def game_can_continue(self) -> bool:
@@ -29,6 +46,13 @@ class Game:
             or self.player2.player_can_play(self.board)
         ) and self.tour_counter < 60
 
+    def change_player(self, player: player.Player):
+        if player == self.player1:
+            player = self.player2
+        else:
+            player = self.player1
+        return player
+
 
 if __name__ == "__main__":
     nicolas = player.Player("Nicolas", pawn.Pawn.WHITE)
@@ -36,4 +60,4 @@ if __name__ == "__main__":
     game = Game(nicolas, alexandra)
     # for i, j, element in game.board:
     #     print(i, j, element)
-    print(game.game_can_continue())
+    game.start()
