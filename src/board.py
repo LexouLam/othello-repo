@@ -55,9 +55,24 @@ class Board:
         return color, good_neighbors
 
     def draw(self):
-        print(self.array)
+        print("    A  ", " B  ", " C  ", " D  ", " E  ", " F  ", " G  ", " H  ", sep="")
+        for row in range(8):
+            print("  ", "-" * 33, sep="")
+            print(row + 1, "| ", end="")
+            for col in range(8):
+                if self.array[row][col] == pawn.Pawn.EMPTY:
+                    print("  | ", end="")
+                elif self.array[row][col] == pawn.Pawn.WHITE:
+                    print("O | ", end="")
+                elif self.array[row][col] == pawn.Pawn.BLACK:
+                    print("X | ", end="")
+                else:
+                    print("? | ", end="")
+            print("  ", " " * 33, sep="")
+        print("  ", "-" * 33, sep="")
 
 
 if __name__ == "__main__":
     board = Board()
-    board.check_neighbors(pawn.Pawn.BLACK, pawn.Position(3, 2))
+    # board.check_neighbors(pawn.Pawn.BLACK, pawn.Position(3, 2))
+    board.draw()
