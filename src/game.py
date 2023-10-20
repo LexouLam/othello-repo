@@ -15,25 +15,26 @@ class Game:
         self.tour_counter = 0
 
     def start(self):
-        while (
-            self.player1.can_play or self.player2.can_play
-        ) and self.tour_counter < 60:
-            while True:
-                row, col = input("Give me your coordinates :").split()
-                if check_neighbors_and_apply():
-                    return True
+        # while (
+        #     self.player1.can_play or self.player2.can_play
+        # ) and self.tour_counter < 60:
+        #     while True:
+        #         row, col = input("Give me your coordinates :").split()
+        #         pass
+        pass
 
-    def end_of_game(self):
-        for place in self.board:
-            if place == pawn.Pawn.EMPTY:
-                if True:
-                    return
+    def end_of_game(self) -> bool:
+        return (
+            self.player1.player_can_play(self.board)
+            and self.player2.player_can_play(self.board)
+            and self.tour_counter < 60
+        )
 
 
 if __name__ == "__main__":
     nicolas = player.Player("Nicolas", pawn.Pawn.WHITE)
     alexandra = player.Player("Alexandra", pawn.Pawn.BLACK)
     game = Game(nicolas, alexandra)
-    board = game.board
-    for index, pion in enumerate(board):
-        print(pion)
+    # for i, j, element in game.board:
+    #     print(i, j, element)
+    print(game.end_of_game())

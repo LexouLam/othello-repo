@@ -37,7 +37,7 @@ class Board:
         if the player wants to place a pawn color at given position, checks if it is possible
         """
         allowed_position = False
-        if board[position] != None:
+        if self[position] != pawn.Pawn.EMPTY:
             return None
         opponent_color = color.opponent_color()
         good_neighbors = []
@@ -70,7 +70,9 @@ class Board:
             if for_change:
                 allowed_position = True
                 filtered_direction, final_position = for_change
-                list_of_changes.append(for_change)
+                list_of_changes.append(
+                    (color, position, filtered_direction, final_position)
+                )
                 # attention si encore là -> buggggg
                 # self.apply_changes(
                 #     color, position, filtered_direction, final_position
@@ -88,10 +90,10 @@ class Board:
         attempted_position = position + direction
         while (
             attempted_position.valid_position()
-            and board[attempted_position] == opponent_color
+            and self[attempted_position] == opponent_color
         ):
             attempted_position += direction
-        if attempted_position.valid_position() and board[attempted_position] == color:
+        if attempted_position.valid_position() and self[attempted_position] == color:
             return direction, attempted_position
 
         return None
@@ -110,7 +112,7 @@ class Board:
 
     def apply_list_of_changes(self, list_of_changes):
         for change in list_of_changes:
-            filtered_direction, final_position = change
+            apply_changes(change)
 
     def draw(self):
         print(self.array)
@@ -118,4 +120,4 @@ class Board:
 
 if __name__ == "__main__":
     board = Board()
-    board.check_can_play(pawn.Pawn.BLACK, pawn.Position(3, 2))
+    print(board.check_can_play(pawn.Pawn.BLACK, pawn.Position(3, 2)))
