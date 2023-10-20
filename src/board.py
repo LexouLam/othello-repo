@@ -24,17 +24,25 @@ class Board:
         i, j = position.row, position.col
         return self.array[i][j]
 
-    def check_neighbors(self, color, position: pawn.Position):
+    def __setitem__(self, position: pawn.Position, color):
+        self.array[position.row][position.col] = color
+
+    def __iter__(self):
+        for i, row in enumerate(self.array):
+            for j, element in enumerate(row):
+                yield (i, j, element)
+
+    def check_can_play(self, color, position: pawn.Position):
         """
         if the player wants to place a pawn color at given position, checks if it is possible
         """
-        if color == pawn.Pawn.WHITE:
-            opponent_color = pawn.Pawn.BLACK
-        elif color == pawn.Pawn.BLACK:
-            opponent_color = pawn.Pawn.WHITE
-        else:
-            raise ValueError("invalid color")
+        allowed_position = False
+        if self[position] != pawn.Pawn.EMPTY:
+            return None
+        opponent_color = color.opponent_color()
         good_neighbors = []
+        good_direction = []
+        list_of_changes = []
         for index in {
             (-1, -1),
             (0, -1),
@@ -50,9 +58,61 @@ class Board:
                 attempted_position.valid_position()
                 and self[attempted_position] == opponent_color
             ):
+                # we filter the position shift that are on the board
+                # we keep the neighbors that have a different color
                 good_neighbors.append(attempted_position)
+                good_direction.append(
+                    index
+                )  # direction to investigate, to see if this leads to a change of colors of pawn in that direction
+        for direction in good_direction:
+            # now we have directions with an opponent color, check if the opponent is framed by two pawns of you color
+            for_change = self.check_imply_changing_colors(color, position, direction)
+            if for_change:
+                allowed_position = True
+                filtered_direction, final_position = for_change
+                list_of_changes.append(
+                    (color, position, filtered_direction, final_position)
+                )
+                # attention si encore là -> buggggg
+                # self.apply_changes(
+                #     color, position, filtered_direction, final_position
+                # )  # maybe just note the changes to be applied in lists
+        return list_of_changes
 
-        return color, good_neighbors
+    def check_imply_changing_colors(
+        self, color, position: pawn.Position, direction: tuple
+    ):
+        """
+        warning direction is a valid direction from check neighbors
+        """
+        opponent_color = color.opponent_color()
+
+        attempted_position = position + direction
+        while (
+            attempted_position.valid_position()
+            and self[attempted_position] == opponent_color
+        ):
+            attempted_position += direction
+        if attempted_position.valid_position() and self[attempted_position] == color:
+            return direction, attempted_position
+
+        return None
+
+    def apply_changes(
+        self,
+        color,
+        position_initial: pawn.Position,
+        direction: tuple,
+        position_final: pawn.Position,
+    ):
+        next_position = position_initial + direction
+        while next_position != position_final:
+            board[next_position] = color
+            next_position += direction
+
+    def apply_list_of_changes(self, list_of_changes):
+        for change in list_of_changes:
+            apply_changes(change)
 
     def draw(self):
         print("    A  ", " B  ", " C  ", " D  ", " E  ", " F  ", " G  ", " H  ", sep="")
