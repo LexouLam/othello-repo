@@ -23,12 +23,11 @@ class Game:
         #         pass
         pass
 
-    def end_of_game(self) -> bool:
+    def game_can_continue(self) -> bool:
         return (
             self.player1.player_can_play(self.board)
-            and self.player2.player_can_play(self.board)
-            and self.tour_counter < 60
-        )
+            or self.player2.player_can_play(self.board)
+        ) and self.tour_counter < 60
 
 
 if __name__ == "__main__":
@@ -37,4 +36,4 @@ if __name__ == "__main__":
     game = Game(nicolas, alexandra)
     # for i, j, element in game.board:
     #     print(i, j, element)
-    print(game.end_of_game())
+    print(game.game_can_continue())
