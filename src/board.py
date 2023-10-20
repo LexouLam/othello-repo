@@ -27,14 +27,22 @@ class Board:
     def __setitem__(self, position: pawn.Position, color):
         self.array[position.row][position.col] = color
 
-    def check_neighbors_and_apply(self, color, position: pawn.Position):
+    def __iter__(self):
+        for i, row in enumerate(self.array):
+            for j, element in enumerate(row):
+                yield (i, j, element)
+
+    def check_can_play(self, color, position: pawn.Position):
         """
         if the player wants to place a pawn color at given position, checks if it is possible
         """
+        allowed_position = False
+        if board[position] != None:
+            return None
         opponent_color = color.opponent_color()
         good_neighbors = []
         good_direction = []
-        will_make_oppponent_pawn_flip = False
+        list_of_changes = []
         for index in {
             (-1, -1),
             (0, -1),
@@ -60,12 +68,14 @@ class Board:
             # now we have directions with an opponent color, check if the opponent is framed by two pawns of you color
             for_change = self.check_imply_changing_colors(color, position, direction)
             if for_change:
-                will_make_oppponent_pawn_flip = True
+                allowed_position = True
                 filtered_direction, final_position = for_change
-                self.apply_changes(
-                    color, position, filtered_direction, final_position
-                )  # maybe just note the changes to be applied in lists
-        return will_make_oppponent_pawn_flip
+                list_of_changes.append(for_change)
+                # attention si encore là -> buggggg
+                # self.apply_changes(
+                #     color, position, filtered_direction, final_position
+                # )  # maybe just note the changes to be applied in lists
+        return list_of_changes
 
     def check_imply_changing_colors(
         self, color, position: pawn.Position, direction: tuple
@@ -98,10 +108,14 @@ class Board:
             board[next_position] = color
             next_position += direction
 
+    def apply_list_of_changes(self, list_of_changes):
+        for change in list_of_changes:
+            filtered_direction, final_position = change
+
     def draw(self):
         print(self.array)
 
 
 if __name__ == "__main__":
     board = Board()
-    board.check_neighbors_and_apply(pawn.Pawn.BLACK, pawn.Position(3, 2))
+    board.check_can_play(pawn.Pawn.BLACK, pawn.Position(3, 2))
