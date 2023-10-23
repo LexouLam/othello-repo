@@ -32,13 +32,13 @@ class Board:
             for j, element in enumerate(row):
                 yield (i, j, element)
 
-    def check_can_play(self, color, position: pawn.Position):
+    def check_can_play(self, color: pawn.Pawn, position: pawn.Position):
         """
         if the player wants to place a pawn color at given position, checks if it is possible
         """
         if self[position] != pawn.Pawn.EMPTY:
             return None
-        opponent_color = color.opponent_color()
+        other_color = color.opponent_color()
         good_direction = []
         list_of_changes = []
         for index in {
@@ -54,7 +54,7 @@ class Board:
             attempted_position = position + index
             if (
                 attempted_position.valid_position()
-                and self[attempted_position] == opponent_color
+                and self[attempted_position] == other_color
             ):
                 # we filter the position shift that are on the board
                 # we keep the neighbors that have a different color
@@ -72,7 +72,7 @@ class Board:
         return list_of_changes
 
     def check_imply_changing_colors(
-        self, color, position: pawn.Position, direction: tuple
+        self, color: pawn.Pawn, position: pawn.Position, direction: tuple
     ):
         """
         warning direction is a valid direction from check_can_play

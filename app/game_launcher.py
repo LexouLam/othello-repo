@@ -50,6 +50,7 @@ if __name__ == "__main__":
                         player_2_couleur = pawn.Pawn.BLACK
                     else:
                         player_2_couleur = pawn.Pawn.WHITE
+                        player_1_couleur = pawn.Pawn.BLACK
 
                     player1 = player.Player(player_1_nom, player_1_couleur)
                     player2 = player.Player(player_2_nom, player_2_couleur)
