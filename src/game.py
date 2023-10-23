@@ -96,6 +96,12 @@ class Game:
         pass
 
     def input_position(self, player: player.Player):
+        """
+        Traduit la position donnée par le joueur en cours dans un format compréhensible pour le jeu (un objet de classe Position contenant deux valeurs)
+        ----
+        Input : le jeu (classe Game) incluant son board et les joueurs (classe Player)
+        Output : pawn.Position(row, col) avec row = int() et col = int()
+        """
         position_input = "rien"
         # "tant que l'input est différent de "[a-Z][digit]" ou "q", faire:
         while re.fullmatch("([a-z][1-8])|(q)", position_input.lower()) == None:
@@ -115,6 +121,12 @@ class Game:
             return pawn.Position(row, col)
 
     def display_scores(self):
+        """
+        Donne le score de chaque joueur au moment où.
+        ----
+        Input : le jeu en cours (avec son tableau).
+        Output : une chaîne de caractères (qui doit être affichée avant le board)
+        """
         # on va compter le nombre de X et le nb de O sur le board
         nb_black = 0
         nb_white = 0

@@ -32,7 +32,7 @@ class Board:
             for j, element in enumerate(row):
                 yield (i, j, element)
 
-    def check_can_play(self, color, position: pawn.Position):
+    def check_can_play(self, color: pawn.Pawn, position: pawn.Position):
         """
         if the player wants to place a pawn color at given position, checks if it is possible
         """
@@ -72,7 +72,7 @@ class Board:
         return list_of_changes
 
     def check_imply_changing_colors(
-        self, color, position: pawn.Position, direction: tuple
+        self, color: pawn.Pawn, position: pawn.Position, direction: tuple
     ):
         """
         warning direction is a valid direction from check_can_play

@@ -67,6 +67,7 @@ def input_carac_players(start_decision):
                         player_1_couleur = pawn.Pawn.WHITE
                         player_2_couleur = pawn.Pawn.BLACK
                     else:
+                        player_1_couleur = pawn.Pawn.BLACK
                         player_2_couleur = pawn.Pawn.WHITE
         player1 = player.Player(player_1_nom, player_1_couleur)
         player2 = player.Player(player_2_nom, player_2_couleur)
