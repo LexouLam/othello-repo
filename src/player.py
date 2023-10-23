@@ -7,6 +7,7 @@ class Player:
         self.name = name
         self.color = color
         self.can_play = True
+        self.score = 0
 
     def save(self):
         # create joueur_name.txt and add your score
