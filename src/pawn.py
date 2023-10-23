@@ -36,5 +36,6 @@ class Position:
         return (self.row < 8) and (self.row >= 0) and (self.col < 8) and (self.col >= 0)
 
 
-pion = Pawn.WHITE
-print(pion)
+if __name__ == "__main__":
+    pion = Pawn.WHITE
+    print(pion)

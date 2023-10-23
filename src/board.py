@@ -128,4 +128,17 @@ class Board:
 
 if __name__ == "__main__":
     board = Board()
-    board.check_neighbors(pawn.Pawn.BLACK, pawn.Position(3, 2))
+    # board.check_neighbors(pawn.Pawn.BLACK, pawn.Position(3, 2))
+    print(board.array)
+    nb_black = 0
+    nb_white = 0
+    nb_empty = 0
+    for row in range(8):
+        for col in range(8):
+            if board.array[row][col] == pawn.Pawn.BLACK:
+                nb_black = nb_black + 1
+            elif board.array[row][col] == pawn.Pawn.WHITE:
+                nb_white = nb_white + 1
+            elif board.array[row][col] == pawn.Pawn.EMPTY:
+                nb_empty = nb_empty + 1
+    print(nb_black, nb_white, nb_empty)

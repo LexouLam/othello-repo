@@ -1,12 +1,13 @@
 import player
 import board
 import pawn
+import re  # pour le test regex désolée
 
 
 class Game:
     def __init__(
         self,
-        player1=player.Player("Joueur1", pawn.Pawn.BLACK),
+        player1=player.Player("Joueur1", pawn.Pawn.BLACK),  # règles noir commence
         player2=player.Player("Joueur2", pawn.Pawn.WHITE),
     ) -> None:
         self.player1 = player1
@@ -72,9 +73,9 @@ class Game:
     def read_input(self, player):
         input_is_wrong = True
         while input_is_wrong:
+            self.display_scores()
             self.board.draw()
-            row, col = map(int, input(f"Enter row and col ({player.color}):  ").split())
-            position = pawn.Position(row, col)
+            position = self.input_position(player)
             if not position.valid_position():
                 print("wrong input, try again")
                 continue
@@ -84,12 +85,68 @@ class Game:
                     list_of_changes
                 ):  # the pawn color and position implies some pawn flip
                     self.board.apply_list_of_changes(list_of_changes)
+                    self.display_scores()
+                    self.board.draw()
+                    input_is_wrong = False
                     player = self.change_player(player)
                     self.pawn_counter += 1
                     input_is_wrong = False
                 else:
                     print("wrong input, try again")
-        return
+        pass
+
+    def input_position(self, player: player.Player):
+        position_input = "rien"
+        # "tant que l'input est différent de "[a-Z][digit]" ou "q", faire:
+        while re.fullmatch("([a-z][1-8])|(q)", position_input.lower()) == None:
+            try:
+                position_input = input(
+                    f"Enter a position {player.name} (ex : a1) : (q : quit)"
+                )
+            except ValueError or TypeError:
+                print("Input not valid, please try again.")
+        # quand l'input est égal à "[a-Z][digit]" ou "q" :
+        if position_input == "q":
+            print("Goodbye.")
+            exit()
+        else:
+            col = ord(list(position_input.lower())[0]) - ord("a")
+            row = int(list(position_input)[1]) - 1
+            return pawn.Position(row, col)
+
+    def display_scores(self):
+        # on va compter le nombre de X et le nb de O sur le board
+        nb_black = 0
+        nb_white = 0
+        nb_empty = 0
+        for row in range(8):
+            for col in range(8):
+                if self.board.array[row][col] == pawn.Pawn.BLACK:
+                    nb_black = nb_black + 1
+                elif self.board.array[row][col] == pawn.Pawn.WHITE:
+                    nb_white = nb_white + 1
+                elif self.board.array[row][col] == pawn.Pawn.EMPTY:
+                    nb_empty = nb_empty + 1
+        print(
+            f"Score {self.player1.name} (black) : ",
+            nb_black,
+            f"Score {self.player2.name} (white) : ",
+            nb_white,
+            "   |   X : black, O : white",
+        )
+
+    def game_can_continue(self) -> bool:
+        return (
+            self.player1.player_can_play(self.board)
+            or self.player2.player_can_play(self.board)
+        ) and self.tour_counter < 60
+
+    def change_player(self, player: player.Player):
+        if player == self.player1:
+            player = self.player2
+        else:
+            player = self.player1
+        return player
 
 
 if __name__ == "__main__":
