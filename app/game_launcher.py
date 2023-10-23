@@ -8,9 +8,9 @@ import game
 import player  # obligé d'importer chaque module sinon ça ne marche pas (à cause du path)
 import board
 import pawn
+import re
 
 if __name__ == "__main__":
-    # FAIRE TRY / EXCEPT pour gérer les erreurs
     entree_valide = False
     start_decision = "rien"
     while start_decision not in ["Y", "q"]:
@@ -58,7 +58,6 @@ if __name__ == "__main__":
                         game_test = game.Game(player1, player2)
                     else:
                         game_test = game.Game(player2, player1)
-                        # ajouter les inputs pendant la partie pour les noms des cases et traduire le a1 en 0,0
                     game.Game.start(game_test)
     print("Goodbye.")
     exit()
