@@ -3,5 +3,12 @@
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter"
     },
-    "python.formatting.provider": "none"
+    "python.formatting.provider": "none",
+    "markdown-preview-enhanced.automaticallyShowPreviewOfMarkdownBeingEdited": true,
+    "markdown-preview-enhanced.alwaysShowBacklinksInPreview": true,
+    "markdown-preview-github-styles.lightTheme": "dark",
+    "markdown-preview-github-styles.colorTheme": "dark",
+    "markdown-mermaid.lightModeTheme": "dark",
+    "markdown-preview-enhanced.HTML5EmbedIsAllowedHttp": true,
+    "markdown-preview-enhanced.breakOnSingleNewLine": true
 }

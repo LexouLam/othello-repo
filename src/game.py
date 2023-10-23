@@ -32,7 +32,6 @@ class Game:
                 list_of_changes = self.board.check_can_play(player.color, position)
                 if list_of_changes:
                     self.board.apply_list_of_changes(list_of_changes)
-                    self.board.draw()
                     input_is_wrong = False
                     player = self.change_player(player)
                 else:
