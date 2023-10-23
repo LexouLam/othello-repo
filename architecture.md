@@ -29,7 +29,6 @@ flowchart TD
     Player_Place_Pawn[Player Place Pawn]
     Change_Player[Change Player]
 
-    Flag_One_Player_Cant_Play(change flag)
     Was_Flag_True{Flag ?}
     Make_Flag_False[Flag = False]
     Make_Flag_True[Flag = True]
