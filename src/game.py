@@ -11,6 +11,7 @@ class Game:
     ) -> None:
         self.player1 = player1
         self.player2 = player2
+        self.playing_player = self.player1
         self.board = board.Board()
         self.tour_counter = 0
 
@@ -47,10 +48,9 @@ class Game:
 
     def change_player(self, player: player.Player):
         if player == self.player1:
-            player = self.player2
+            return self.player2
         else:
-            player = self.player1
-        return player
+            return self.player1
 
 
 if __name__ == "__main__":
