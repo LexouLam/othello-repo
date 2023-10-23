@@ -6,8 +6,8 @@ import pawn
 class Game:
     def __init__(
         self,
-        player1=player.Player("Joueur1", pawn.Pawn.WHITE),
-        player2=player.Player("Joueur2", pawn.Pawn.BLACK),
+        player1=player.Player("Joueur1", pawn.Pawn.BLACK),  # règles noir commence
+        player2=player.Player("Joueur2", pawn.Pawn.WHITE),
     ) -> None:
         self.player1 = player1
         self.player2 = player2
