@@ -22,10 +22,9 @@ class Game:
             input_is_wrong = True
             while input_is_wrong:
                 self.board.draw()
-                row, col = map(
-                    int, input(f"Enter row and col ({player.color}):  ").split()
-                )
-                position = pawn.Position(row, col)
+                #####
+                position = self.input_position(player)
+                #####
                 if not position.valid_position():
                     print("wrong input, try again")
                     continue
@@ -39,6 +38,16 @@ class Game:
                     print("wrong input, try again")
 
         pass
+
+    def input_position(self, player: player.Player):
+        position_input = input(f"Enter a position {player.name} (ex : a1) : (q : quit)")
+        if position_input == "q":
+            print("Goodbye.")
+            exit()
+        else:
+            col = ord(list(position_input.lower())[0]) - ord("a")
+            row = int(list(position_input)[1]) - 1
+            return pawn.Position(row, col)
 
     def game_can_continue(self) -> bool:
         return (

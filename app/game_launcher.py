@@ -9,39 +9,56 @@ import player  # obligé d'importer chaque module sinon ça ne marche pas (à ca
 import board
 import pawn
 
-# try: except: pour input
-#
-
 if __name__ == "__main__":
-    start = False
-    while start == False:
-        start_decision = input("Commencer partie ? (Y/N)\nq pour quitter\n")
-        if start_decision == "Y":
-            start = True
-        # elif start_decision == "q":
-        #     break
+    # FAIRE TRY / EXCEPT pour gérer les erreurs
+    entree_valide = False
+    start_decision = "rien"
+    while start_decision not in ["Y", "q"]:
+        while entree_valide == False:
+            try:
+                # code
+                start_decision = input("Start game ? (Y/N)\nq : quit\n")
+            except ValueError or TypeError:
+                # any exception
+                print("Input not valid, please try again.")
+            else:
+                # code to execute when no errors
+                entree_valide = start_decision in [
+                    "Y",
+                    "q",
+                ]
+    while start_decision != "q":
+        player_1_nom = input("Name 1:\n(q : quit)")
+        if player_1_nom == "q":
+            print("Goodbye.")
+            exit()
         else:
-            start = False
-        # FAIRE TRY / EXCEPT ICI
-    player_1_nom = input("Nom :")
-    player_1_couleur = "rien"
-    while player_1_couleur not in ["blanc", "noir"]:
-        player_1_couleur = input("Couleur : (blanc / noir)")
-    player_2_nom = input("Nom :")
-    if player_1_couleur == "blanc":
-        player_1_couleur = pawn.Pawn.WHITE
-        player_2_couleur = pawn.Pawn.BLACK
-    else:
-        player_2_couleur = pawn.Pawn.WHITE
+            player_1_couleur = "rien"
+            while player_1_couleur not in ["white", "black", "q"]:
+                player_1_couleur = input("Color : (white / black)\n(q : quit)")
+            if player_1_couleur == "q":
+                print("Goodbye.")
+                exit()
+            else:
+                player_2_nom = input("Name 2:\n(q : quit)")
+                if player_2_nom == "q":
+                    print("Goodbye.")
+                    exit()
+                else:
+                    if player_1_couleur == "white":
+                        player_1_couleur = pawn.Pawn.WHITE
+                        player_2_couleur = pawn.Pawn.BLACK
+                    else:
+                        player_2_couleur = pawn.Pawn.WHITE
 
-    player1 = player.Player(player_1_nom, player_1_couleur)
-    player2 = player.Player(player_2_nom, player_2_couleur)
-    # ci-dessous : dans la fonction game.Game.start() le premier joueur nommé est celui qui commence
-    if player_1_couleur == pawn.Pawn.BLACK:
-        game_test = game.Game(player1, player2)
-    else:
-        game_test = game.Game(player2, player1)
-
-    # ajouter les inputs pendant la partie pour les noms des cases et traduire le a1 en 0,0
-    #
-    game.Game.start(game_test)
+                    player1 = player.Player(player_1_nom, player_1_couleur)
+                    player2 = player.Player(player_2_nom, player_2_couleur)
+                    # ci-dessous : dans la fonction game.Game.start() le premier joueur nommé est celui qui commence
+                    if player_1_couleur == pawn.Pawn.BLACK:
+                        game_test = game.Game(player1, player2)
+                    else:
+                        game_test = game.Game(player2, player1)
+                        # ajouter les inputs pendant la partie pour les noms des cases et traduire le a1 en 0,0
+                    game.Game.start(game_test)
+    print("Goodbye.")
+    exit()
