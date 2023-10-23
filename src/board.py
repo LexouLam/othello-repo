@@ -36,11 +36,9 @@ class Board:
         """
         if the player wants to place a pawn color at given position, checks if it is possible
         """
-        allowed_position = False
         if self[position] != pawn.Pawn.EMPTY:
             return None
         opponent_color = color.opponent_color()
-        good_neighbors = []
         good_direction = []
         list_of_changes = []
         for index in {
@@ -60,7 +58,6 @@ class Board:
             ):
                 # we filter the position shift that are on the board
                 # we keep the neighbors that have a different color
-                good_neighbors.append(attempted_position)
                 good_direction.append(
                     index
                 )  # direction to investigate, to see if this leads to a change of colors of pawn in that direction
@@ -68,22 +65,17 @@ class Board:
             # now we have directions with an opponent color, check if the opponent is framed by two pawns of you color
             for_change = self.check_imply_changing_colors(color, position, direction)
             if for_change:
-                allowed_position = True
                 filtered_direction, final_position = for_change
                 list_of_changes.append(
                     (color, position, filtered_direction, final_position)
                 )
-                # attention si encore là -> buggggg
-                # self.apply_changes(
-                #     color, position, filtered_direction, final_position
-                # )  # maybe just note the changes to be applied in lists
         return list_of_changes
 
     def check_imply_changing_colors(
         self, color, position: pawn.Position, direction: tuple
     ):
         """
-        warning direction is a valid direction from check neighbors
+        warning direction is a valid direction from check_can_play
         """
         opponent_color = color.opponent_color()
 
