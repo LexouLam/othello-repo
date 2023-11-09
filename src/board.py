@@ -4,10 +4,10 @@ import pawn
 class Board:
     def __init__(self) -> None:
         self.array = [[pawn.Pawn.EMPTY for _ in range(8)] for _ in range(8)]
-        self.array[3][3] = pawn.Pawn.WHITE
-        self.array[3][4] = pawn.Pawn.BLACK
-        self.array[4][3] = pawn.Pawn.BLACK
-        self.array[4][4] = pawn.Pawn.WHITE
+        self.array[3][3] = pawn.Pawn.BLACK
+        self.array[3][4] = pawn.Pawn.WHITE
+        self.array[4][3] = pawn.Pawn.WHITE
+        self.array[4][4] = pawn.Pawn.BLACK
 
     def is_move_valid(self, position: pawn.Position):
         return True

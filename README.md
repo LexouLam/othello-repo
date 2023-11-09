@@ -11,3 +11,7 @@ Go to app and run
 python3 game_launcher.py
 ```
 
+## Run test
+```bash
+python -m unittest discover test 
+```
